@@ -1,0 +1,102 @@
+﻿@model Coupon
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string imageSource = string.Empty;
+}
+
+<!-- This block convert image from byte type to base 64 string
+    to allow us show image in client side-->
+@if (Model.Picture != null && Model.Picture.Length > 0)
+{
+
+    imageSource = $"data:image;base64,{Convert.ToBase64String(Model.Picture)}";
+
+}
+
+<br />
+<h2 class="text-info">Edit Coupon</h2>
+
+<br />
+<form asp-action="Delete" method="post" enctype="multipart/form-data">
+
+    <div class="border backgroundWhite">
+        <div class="row">
+            <img width="100%" class="mb-3" src="@imageSource" />
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!-- Coupon Name  -->
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Name" class="col-form-label"></label>
+            </div>
+
+            <div class="col-5">
+                <input disabled asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Coupon Type  -->
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CouponType" class="col-form-label"></label>
+            </div>
+
+            <div class="col-5">
+                <select disabled asp-for="CouponType" asp-items="Html.GetEnumSelectList<Coupon.ECouponType>()" class="form-control"></select>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Coupon Discount  -->
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Discount" class="col-form-label"></label>
+            </div>
+
+            <div class="col-5">
+                <input disabled asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Coupon Minimum amount  -->
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="MinimumAmount" class="col-form-label"></label>
+            </div>
+
+            <div class="col-5">
+                <input disabled asp-for="MinimumAmount" class="form-control" />
+                <span asp-validation-for="MinimumAmount" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Coupon Is Active  -->
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="isActive" class="col-form-label"></label>
+            </div>
+
+            <div class="col-5">
+                <input disabled asp-for="isActive" type="checkbox" class="form-control" />
+            </div>
+        </div>
+        <!-- End -->
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_DeleteAndBackToListButton" model="@Model.id" />
+            </div>
+        </div>
+
+    </div>
+
+
+</form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

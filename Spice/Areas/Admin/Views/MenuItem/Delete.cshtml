@@ -1,0 +1,154 @@
+﻿@model Spice.Models.ViewModels.MenuItemViewModel
+@using Spice.Extensions
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    var valueSpiceness = "";
+    switch (Model.MenuItem.Spicyness)
+    {
+        case "0":
+            valueSpiceness = "NA";
+            break;
+        case "1":
+            valueSpiceness = "NotSpicy";
+            break;
+        case "2":
+            valueSpiceness = "Spicy";
+            break;
+        case "3":
+            valueSpiceness = "VerySpicy";
+            break;
+
+    }
+}
+
+<br />
+<h2 class="text-info">Details MenuItem</h2>
+
+<br />
+<form asp-action="Delete" method="post" >
+
+    <div class="border backgroundWhite row">
+
+
+        <input type="hidden" asp-for="MenuItem.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-8">
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.Name" class="col-form-label"></label>
+                </div>
+
+                <div class="col-8">
+                    <input asp-for="MenuItem.Name" class="form-control" disabled />
+                    <span asp-validation-for="MenuItem.Name" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.Description" class="col-form-label"></label>
+                </div>
+
+                <div class="col-8">
+                    @Html.TextAreaFor(m => m.MenuItem.Description, new { disabled = "disabled" })
+                    <span asp-validation-for="MenuItem.Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.Price" class="col-form-label"></label>
+                </div>
+
+                <div class="col-8">
+                    <input asp-for="MenuItem.Price" disabled class="form-control" />
+                    <span asp-validation-for="MenuItem.Price" class="text-danger"></span>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.Category.Name" class="col-form-label"></label>
+                </div>
+
+                <div class="col-8">
+                    @*<select asp-for="@Model.MenuItem.CategoryId" id="CategoryId" asp-items="Model.Category.ToSelectListItems(Model.MenuItem.CategoryId)" class="form-control"></select>*@
+                    <input disabled asp-for="@Model.MenuItem.Category.Name" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.SubCategory.Name" class="col-form-label"></label>
+                </div>
+
+                <div class="col-8">
+                    @*<select asp-for="@Model.MenuItem.SubCategoryId" name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>*@
+                    <input disabled asp-for="@Model.MenuItem.SubCategory.Name" class="form-control" />
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MenuItem.Spicyness" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    @*<select asp-for="MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>*@
+                    <input disabled value="@valueSpiceness" @*asp-for="@Model.MenuItem.Spicyness"*@ class="form-control" />
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-3 offset-1">
+
+            <img src="@Model.MenuItem.Image" width="100%" style="border-radius: 5px;border : 1px solid #bbb9b9;" />
+        </div>
+
+
+
+        <div class="col-8">
+            <div class="col-8 offset-4">
+
+                <partial name="_DeleteAndBackToListButton" model="Model.MenuItem.Id" />
+            </div>
+        </div>
+
+    </div>
+
+
+</form>
+
+
+@section Scripts{
+
+    <script>
+        // Move focus to specific element
+        tinyMCE.init({
+            
+            selector: 'textarea',
+            plugins: 'lists',
+            menubar: 'file edit format',
+            readonly: 1
+        });
+
+    </script>
+
+
+
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+

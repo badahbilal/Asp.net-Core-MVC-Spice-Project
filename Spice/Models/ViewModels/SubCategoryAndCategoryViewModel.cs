@@ -9,6 +9,5 @@ namespace Spice.Models.ViewModels
         public SubCategory SubCategory { get; set; }
         public List<string> SubCategoryList { get; set; }
         public string StatusMessage { get; set; }
-        public string NameCategoryForDeatils { get; set; }
     }
 }

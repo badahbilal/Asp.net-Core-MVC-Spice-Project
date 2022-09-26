@@ -9,13 +9,15 @@ namespace Spice.Extensions
 
         public static IEnumerable<SelectListItem> ToSelectListItems<T>(this IEnumerable<T> items, int selectedValue)
         {
-            return from item in items
-                   select new SelectListItem
-                   {
-                       Text = item.getPropertyValue("Name"),
-                       Value = item.getPropertyValue("Id"),
-                       Selected = item.getPropertyValue("Id").Equals(selectedValue.ToString())
-                   };
+            var result = from item in items
+                         select new SelectListItem
+                         {
+                             Text = item.getPropertyValue("Name"),
+                             Value = item.getPropertyValue("Id"),
+                             Selected = item.getPropertyValue("Id").Equals(selectedValue.ToString())
+                         };
+
+            return result;
         }
     }
 }
